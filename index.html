@@ -339,25 +339,105 @@
             // Square Position
             TVertexPositionBuffer = gl.createBuffer()
             gl.bindBuffer(gl.ARRAY_BUFFER, TVertexPositionBuffer)
-            vertices = [
-                1.0, 1.0, 0.0,
-                -1.0, 1.0, 0.0,
-                1.0, -1.0, 0.0,
-                -1.0, -1.0, 0.0
+            let vertices2 = [
+                //depan
+                -5.0, 5.0, 1.0,
+                5.0, 5.0, 1.0,
+                5.0, 3.5, 1.0,
+                5.0, 3.5, 1.0,
+                -5.0, 3.5, 1.0,
+                -5.0, 5.0, 1.0,
+
+                -1.0, 5.0, 1.0,
+                1.0, 5.0, 1.0,
+                1.0, -5.0, 1.0,
+                1.0, -5.0, 1.0,
+                -1.0, -5.0, 1.0,
+                -1.0, 5.0, 1.0,
+
+                //belakang
+                -5.0, 5.0, -1.0,
+                5.0, 5.0, -1.0,
+                5.0, 3.5, -1.0,
+                5.0, 3.5, -1.0,
+                -5.0, 3.5, -1.0,
+                -5.0, 5.0, -1.0,
+
+                -1.0, 5.0, -1.0,
+                1.0, 5.0, -1.0,
+                1.0, -5.0, -1.0,
+                1.0, -5.0, -1.0,
+                -1.0, -5.0, -1.0,
+                -1.0, 5.0, -1.0,
+
+                //kiri
+                -5.0, 5.0, 1.0,
+                -5.0, 3.5, 1.0,
+                -5.0, 3.5, -1.0,
+                -5.0, 3.5, -1.0,
+                -5.0, 5.0, -1.0,
+                -5.0, 5.0, 1.0,
+
+                -1.0, 5.0, 1.0,
+                -1.0, -5.0, 1.0,
+                -1.0, -5.0, -1.0,
+                -1.0, -5.0, -1.0,
+                -1.0, 5.0, -1.0,
+                -1.0, 5.0, 1.0,
+
+                //kanan
+                5.0, 5.0, 1.0,
+                5.0, 3.5, 1.0,
+                5.0, 3.5, -1.0,
+                5.0, 3.5, -1.0,
+                5.0, 5.0, -1.0,
+                5.0, 5.0, 1.0,
+
+                1.0, 5.0, 1.0,
+                1.0, -5.0, 1.0,
+                1.0, -5.0, -1.0,
+                1.0, -5.0, -1.0,
+                1.0, 5.0, -1.0,
+                1.0, 5.0, 1.0,
+
+                //atas
+                -5.0, 5.0, 1.0,
+                5.0, 5.0, 1.0,
+                5.0, 5.0, -1.0,
+                5.0, 5.0, -1.0,
+                -5.0, 5.0, -1.0,
+                -5.0, 5.0, 1.0,
+
+                //bawah
+
+                -5.0, 3.5, 1.0,
+                5.0, 3.5, 1.0,
+                5.0, 3.5, -1.0,
+                5.0, 3.5, -1.0,
+                -5.0, 3.5, -1.0,
+                -5.0, 3.5, 1.0,
+
+                -1.0, -5.0, 1.0,
+                1.0, -5.0, 1.0,
+                1.0, -5.0, -1.0,
+                1.0, -5.0, -1.0,
+                -1.0, -5.0, -1.0,
+                -1.0, -5.0, 1.0,
+
             ]
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices2), gl.STATIC_DRAW)
             TVertexPositionBuffer.itemSize = 3
-            TVertexPositionBuffer.numItems = 4
+            TVertexPositionBuffer.numItems = vertices2.length / 3
             // Square Color
             TVertexColorBuffer = gl.createBuffer()
             gl.bindBuffer(gl.ARRAY_BUFFER, TVertexColorBuffer)
             colors = []
-            for (let i = 0; i < 4; i++) {
-                colors = colors.concat([0.5, 0.5, 1.0, 1.0])
+            for(let i=0;i<TVertexPositionBuffer.numItems;++i){
+                colors = colors.concat([1.0,1.0,1.0,1.0])
             }
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW)
             TVertexColorBuffer.itemSize = 4
-            TVertexColorBuffer.numItems = 4
+            TVertexColorBuffer.numItems = colors.length / 4
         }
 
         let rTri = 0
@@ -366,11 +446,12 @@
         let drawScene = ()=>{
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight)
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-            mat4.perspective(pMatrix, glMatrix.toRadian(60), gl.viewportWidth / gl.viewportHeight, 0.1, 100.0)
+            mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth / gl.viewportHeight, 0.1, 100.0)
             mat4.identity(mvMatrix)
+
             mat4.translate(mvMatrix, mvMatrix, [0.0, 10.0, -50.0])
             mvPushMatrix()
-            mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rTri), [0.0, 1.0, 0.0])
+            mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rTri), [1.0, 0.0, 0.0])
             //mat4.rotateY(mvMatrix, mvMatrix, glMatrix.toRadian(rTri))
             gl.bindBuffer(gl.ARRAY_BUFFER, NVertexPositionBuffer)
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, NVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0)
@@ -379,17 +460,19 @@
             setMatrixUniforms()
             gl.drawArrays(gl.TRIANGLES, 0, NVertexPositionBuffer.numItems)
             mvPopMatrix()
+
             mat4.translate(mvMatrix, mvMatrix, [0.0, -20.0, 0.0])
             mvPushMatrix()
-            mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rSquare), [1.0, 0.0, 0.0])
+            mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rSquare), [0.0, 1.0, 0.0])
             //mat4.rotateX(mvMatrix, mvMatrix, glMatrix.toRadian(rSquare))
             gl.bindBuffer(gl.ARRAY_BUFFER, TVertexPositionBuffer)
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, TVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0)
             gl.bindBuffer(gl.ARRAY_BUFFER, TVertexColorBuffer)
             gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, TVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0)
             setMatrixUniforms()
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, TVertexPositionBuffer.numItems)
+            gl.drawArrays(gl.TRIANGLES, 0, TVertexPositionBuffer.numItems)
             mvPopMatrix()
+            
         }
 
         let lastTime = 0
@@ -398,8 +481,8 @@
             let timeNow = new Date().getTime()
             if (lastTime !== 0) {
                 let elapsed = timeNow - lastTime
-                rTri += (90 * elapsed) / 1000.0
-                rSquare += (75 * elapsed) / 1000.0
+                rTri += (20 * elapsed) / 1000.0
+                rSquare += (20 * elapsed) / 1000.0
             }
             lastTime = timeNow
         }
